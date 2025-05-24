@@ -1,0 +1,40 @@
+syntax = "proto3";
+
+package todo;
+import "googleapis/google/api/annotations.proto";
+
+option go_package = "microservice/proto;todo";
+
+service TodoService {
+  rpc ListTodos(Empty) returns (TodoList) {
+    option (google.api.http) = {
+      get: "/v1/todos"
+    };
+  }
+  rpc CreateTodo(TodoRequest) returns (TodoResponse) {
+    option (google.api.http) = {
+      post: "/v1/todos"
+      body: "*"
+    };
+  }
+}
+
+message TodoRequest {
+  string title = 1;
+  string description = 2;
+}
+
+message TodoResponse {
+  string message = 1;
+}
+
+message Empty {}
+
+message Todo {
+  string title = 1;
+  string description = 2;
+}
+
+message TodoList {
+  repeated Todo todos = 1;
+}
